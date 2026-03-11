@@ -1,12 +1,9 @@
-﻿using MojaBiblioteka.MVVM.LoginForm.Presenter;
+﻿using MojaBiblioteka.MVP.LoginForm.Presenter;
 using System;
 using System.Windows;
 
-namespace MojaBiblioteka.MVVM.LoginForm.View
+namespace MojaBiblioteka.MVP.LoginForm.View
 {
-    /// <summary>
-    /// Logika interakcji dla klasy Login.xaml
-    /// </summary>
     public partial class Login : Window, ILogin
     {
         public event EventHandler LoginButtonClicked;
@@ -34,7 +31,7 @@ namespace MojaBiblioteka.MVVM.LoginForm.View
 
         public void ShowMessage(string message, string title) => MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
 
-        public void CloseThisWindow() => this.Close();
+        public void CloseLoginWindow() => this.Close();
 
         public void OpenWindow(Window window) => window.ShowDialog();
     }

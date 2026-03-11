@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using MojaBiblioteka.MVP.LoginForm.View;
 using System.Windows;
 
 namespace MojaBiblioteka
@@ -13,5 +8,22 @@ namespace MojaBiblioteka
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+            var login = new Login();
+            login.ShowDialog();
+
+            if (login.DialogResult == true)
+            {
+                var mainWindow = new MainWindow();
+                MainWindow = mainWindow;
+                ShutdownMode = ShutdownMode.OnMainWindowClose;
+                mainWindow.Show();
+            }
+            else
+                Shutdown();
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace MojaBiblioteka.MVVM.LoginForm.View
+namespace MojaBiblioteka.MVP.LoginForm.View
 {
     public interface ILogin
     {
@@ -11,7 +11,7 @@ namespace MojaBiblioteka.MVVM.LoginForm.View
 
         bool ConfirmAction(string message, string title);
         void ShowMessage(string message, string title);
-        void CloseThisWindow();
+        void CloseLoginWindow();
         void OpenWindow(Window window);
     }
 }

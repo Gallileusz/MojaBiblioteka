@@ -1,7 +1,7 @@
-﻿using MojaBiblioteka.MVVM.LoginForm.View;
+﻿using MojaBiblioteka.MVP.LoginForm.View;
 using System;
 
-namespace MojaBiblioteka.MVVM.LoginForm.Presenter
+namespace MojaBiblioteka.MVP.LoginForm.Presenter
 {
     public class LoginPresenter
     {
@@ -22,12 +22,15 @@ namespace MojaBiblioteka.MVVM.LoginForm.Presenter
 
         private void LoginClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            // TODO: Validate User than move to main window
+            _view.CloseLoginWindow();
+            _view.OpenWindow(new MainWindow());
         }
 
         private void RegistrationClick(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            _view.CloseLoginWindow();
+            _view.OpenWindow(new RegistrationForm.View.RegistrationForm());
         }
 
         private void CloseClick(object sender, EventArgs e)
@@ -35,7 +38,7 @@ namespace MojaBiblioteka.MVVM.LoginForm.Presenter
             if (!_view.ConfirmAction("Czy na pewno chcesz wyjść z aplikacji?", "Potwierdzenie operacji"))
                 return;
 
-            _view.CloseThisWindow();
+            _view.CloseLoginWindow();
         }
     }
 }

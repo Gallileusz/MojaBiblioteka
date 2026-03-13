@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
 
-namespace MojaBiblioteka.MVP.LoginForm.View
+namespace MojaBiblioteka.MVP.LoginView.View
 {
-    public interface ILogin
+    public interface ILoginView
     {
         event EventHandler LoginButtonClicked;
         event EventHandler RegistrationButtonClicked;

@@ -1,12 +1,12 @@
-﻿using MojaBiblioteka.MVP.LoginForm.View;
+﻿using MojaBiblioteka.MVP.LoginView.View;
 using System;
 
-namespace MojaBiblioteka.MVP.LoginForm.Presenter
+namespace MojaBiblioteka.MVP.LoginView.Presenter
 {
     public class LoginPresenter
     {
-        private readonly ILogin _view;
-        public LoginPresenter(ILogin view)
+        private readonly ILoginView _view;
+        public LoginPresenter(ILoginView view)
         {
             _view = view;
 
@@ -30,7 +30,7 @@ namespace MojaBiblioteka.MVP.LoginForm.Presenter
         private void RegistrationClick(object sender, EventArgs e)
         {
             _view.CloseLoginWindow();
-            _view.OpenWindow(new RegistrationForm.View.RegistrationForm());
+            _view.OpenWindow(new RegistrationView.View.RegistrationView());
         }
 
         private void CloseClick(object sender, EventArgs e)

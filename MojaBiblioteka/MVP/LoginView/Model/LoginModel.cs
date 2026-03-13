@@ -1,4 +1,4 @@
-﻿namespace MojaBiblioteka.MVP.LoginForm.Model
+﻿namespace MojaBiblioteka.MVP.LoginView.Model
 {
     public class LoginModel
     {

@@ -1,17 +1,17 @@
-﻿using MojaBiblioteka.MVP.LoginForm.Presenter;
+﻿using MojaBiblioteka.MVP.LoginView.Presenter;
 using System;
 using System.Windows;
 
-namespace MojaBiblioteka.MVP.LoginForm.View
+namespace MojaBiblioteka.MVP.LoginView.View
 {
-    public partial class Login : Window, ILogin
+    public partial class LoginView : Window, ILoginView
     {
         public event EventHandler LoginButtonClicked;
         public event EventHandler RegistrationButtonClicked;
         public event EventHandler CloseButtonClicked;
 
         private readonly LoginPresenter _presenter;
-        public Login()
+        public LoginView()
         {
             InitializeComponent();
             _presenter = new LoginPresenter(this);

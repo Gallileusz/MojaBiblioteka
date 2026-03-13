@@ -1,4 +1,4 @@
-﻿using MojaBiblioteka.MVP.LoginForm.View;
+﻿using MojaBiblioteka.MVP.LoginView.View;
 using System.Windows;
 
 namespace MojaBiblioteka
@@ -12,7 +12,7 @@ namespace MojaBiblioteka
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            var login = new Login();
+            var login = new LoginView();
             login.ShowDialog();
 
             if (login.DialogResult == true)

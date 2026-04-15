@@ -1,4 +1,9 @@
-﻿using MojaBiblioteka.MVP.LoginView.View;
+﻿using MojaBiblioteka.Data.Repositories;
+using MojaBiblioteka.MVP.LoginView.View;
+using MojaBiblioteka.MVP.MainView.View;
+using MojaBiblioteka.Utility;
+using System;
+using System.IO;
 using System.Windows;
 
 namespace MojaBiblioteka
@@ -11,15 +16,21 @@ namespace MojaBiblioteka
         protected override void OnStartup(StartupEventArgs e)
         {
             ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            UserSession.SignOut();
 
-            var login = new LoginView();
+            var dbDirectory = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "MojaBiblioteka");
+            var databasePath = Path.Combine(dbDirectory, "moja-biblioteka.sqlite");
+
+            var userRepository = new UserRepository(databasePath);
+            var login = new LoginView(userRepository);
             login.ShowDialog();
 
-            if (login.DialogResult == true)
+            if (login.DialogResult == true && UserSession.IsAuthenticated)
             {
-                var mainWindow = new MainWindow();
+                var mainWindow = new MainView(UserSession.UserId, UserSession.Login);
                 MainWindow = mainWindow;
-                ShutdownMode = ShutdownMode.OnMainWindowClose;
                 mainWindow.Show();
             }
             else

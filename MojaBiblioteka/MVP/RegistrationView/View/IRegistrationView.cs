@@ -13,7 +13,6 @@ namespace MojaBiblioteka.MVP.RegistrationView.View
         event EventHandler RegisterButtonClicked;
 
         void CloseThisView();
-        void OpenLoginView();
         void ShowMessage(string message, string title);
         void ShowError(string message, string title);
     }

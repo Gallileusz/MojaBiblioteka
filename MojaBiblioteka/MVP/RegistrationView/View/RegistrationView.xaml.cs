@@ -1,6 +1,7 @@
 ﻿using MojaBiblioteka.MVP.RegistrationView.Presenter;
 using System;
 using System.Windows;
+using MojaBiblioteka.Data.Repositories;
 
 namespace MojaBiblioteka.MVP.RegistrationView.View
 {
@@ -18,10 +19,10 @@ namespace MojaBiblioteka.MVP.RegistrationView.View
 
         private readonly RegistrationPresenter _presenter;
 
-        public RegistrationView()
+        public RegistrationView(IUserRepository userRepository)
         {
             InitializeComponent();
-            _presenter = new RegistrationPresenter(this);
+            _presenter = new RegistrationPresenter(this, userRepository);
         }
 
         public void lblClose_Click(object sender, RoutedEventArgs e) => CloseButtonClicked?.Invoke(sender, e);
@@ -31,12 +32,6 @@ namespace MojaBiblioteka.MVP.RegistrationView.View
         public void lblReturnToLoginForm_Click(object sender, RoutedEventArgs e) => ReturnToLoginLabelCicked?.Invoke(sender, e);
 
         public void CloseThisView() => this.Close();
-
-        public void OpenLoginView()
-        {
-            var view = new LoginView.View.LoginView();
-            view.ShowDialog();
-        }
 
         public void ShowMessage(string message, string title) => MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Information);
 

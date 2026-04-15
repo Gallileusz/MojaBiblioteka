@@ -1,4 +1,7 @@
-﻿using MojaBiblioteka.MVP.LoginView.View;
+﻿using MojaBiblioteka.Data.Repositories;
+using MojaBiblioteka.MVP.LoginView.View;
+using MojaBiblioteka.Utility;
+using MojaBiblioteka.Utility.Security;
 using System;
 
 namespace MojaBiblioteka.MVP.LoginView.Presenter
@@ -6,9 +9,12 @@ namespace MojaBiblioteka.MVP.LoginView.Presenter
     public class LoginPresenter
     {
         private readonly ILoginView _view;
-        public LoginPresenter(ILoginView view)
+        private readonly IUserRepository _userRepository;
+
+        public LoginPresenter(ILoginView view, IUserRepository userRepository)
         {
             _view = view;
+            _userRepository = userRepository;
 
             SubscribeToEvents();
         }
@@ -22,15 +28,28 @@ namespace MojaBiblioteka.MVP.LoginView.Presenter
 
         private void LoginClick(object sender, EventArgs e)
         {
-            // TODO: Validate User than move to main window
+            if (string.IsNullOrWhiteSpace(_view.Login) || string.IsNullOrWhiteSpace(_view.Password))
+            {
+                _view.ShowError("Login i hasło są wymagane.", "Błąd logowania");
+                return;
+            }
+
+            var passwordHash = PasswordHasher.ComputeHash(_view.Password);
+            var user = _userRepository.GetByCredentials(_view.Login.Trim(), passwordHash);
+            if (user == null)
+            {
+                _view.ShowError("Niepoprawny login lub hasło.", "Błąd logowania");
+                return;
+            }
+
+            UserSession.SignIn(user);
+            _view.CloseWithSuccess();
             _view.CloseLoginWindow();
-            _view.OpenWindow(new MainWindow());
         }
 
         private void RegistrationClick(object sender, EventArgs e)
         {
-            _view.CloseLoginWindow();
-            _view.OpenWindow(new RegistrationView.View.RegistrationView());
+            _view.OpenWindow(new RegistrationView.View.RegistrationView(_userRepository));
         }
 
         private void CloseClick(object sender, EventArgs e)

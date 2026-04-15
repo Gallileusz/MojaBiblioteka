@@ -14,6 +14,7 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data.SQLite">
+      <HintPath>$(UserProfile)\.nuget\packages\stub.system.data.sqlite.core.netframework\1.0.119\lib\net46\System.Data.SQLite.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,19 +60,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="MVP\BookForm\View\BookForm.xaml.cs">
+      <DependentUpon>BookForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Utility\BookModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="MVP\BookCard\View\BookCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVP\BookForm\View\BookForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MVP\LoginView\View\LoginView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MVP\MainView\View\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -77,13 +90,30 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MVP\BookCard\View\BookCard.xaml.cs">
+      <DependentUpon>BookCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Repositories\IBookRepository.cs" />
+    <Compile Include="Data\Repositories\IUserRepository.cs" />
+    <Compile Include="Data\Repositories\BookRepository.cs" />
+    <Compile Include="Data\Repositories\UserRepository.cs" />
+    <Compile Include="Data\DataBase\DataBaseInitializer.cs" />
     <Compile Include="MVP\LoginView\Model\LoginModel.cs" />
     <Compile Include="MVP\LoginView\Presenter\LoginPresenter.cs" />
     <Compile Include="MVP\LoginView\View\ILoginView.cs" />
     <Compile Include="MVP\LoginView\View\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MVP\MainView\View\MainView.xaml.cs">
+      <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MVP\MainView\View\IMainView.cs" />
+    <Compile Include="MVP\MainView\Presenter\MainPresenter.cs" />
     <Compile Include="MVP\RegistrationView\Presenter\RegistrationPresenter.cs" />
+    <Compile Include="MVP\RegistrationView\Utility\FieldValidators\Fields\LoginValidator.cs" />
+    <Compile Include="MVP\RegistrationView\Utility\FieldValidators\Fields\PasswordValidator.cs" />
+    <Compile Include="MVP\RegistrationView\Utility\FieldValidators\FieldValidator.cs" />
+    <Compile Include="MVP\RegistrationView\Utility\FieldValidators\IFieldValidator.cs" />
     <Compile Include="MVP\RegistrationView\View\IRegistrationView.cs" />
     <Compile Include="MVP\RegistrationView\View\RegistrationView.xaml.cs">
       <DependentUpon>RegistrationView.xaml</DependentUpon>
@@ -101,6 +131,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Utility\Converters\ByteArrayToImageSourceConverter.cs" />
+    <Compile Include="Utility\Security\PasswordHasher.cs" />
+    <Compile Include="Utility\UserModel.cs" />
+    <Compile Include="Utility\UserSession.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -114,11 +148,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
-    <Folder Include="Fonts\" />
-    <Folder Include="Images\" />
+    <Folder Include="MVP\MainView\Model\" />
     <Folder Include="MVP\RegistrationView\Model\" />
-    <Folder Include="Theme\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

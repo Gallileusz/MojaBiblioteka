@@ -6,20 +6,18 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MojaBiblioteka.Data.Repositories;
+using MojaBiblioteka.MVP.BookCard.Presenter;
 using MojaBiblioteka.MVP.MainView.Presenter;
 using MojaBiblioteka.Utility;
+using BookCardControl = MojaBiblioteka.MVP.BookCard.View.BookCard;
 using BookFormWindow = MojaBiblioteka.MVP.BookForm.View.BookForm;
 
 namespace MojaBiblioteka.MVP.MainView.View
 {
-    /// <summary>
-    /// Logika interakcji dla klasy MainView.xaml
-    /// </summary>
     public partial class MainView : Window, IMainView
     {
         private readonly MainPresenter _presenter;
         private readonly int _currentUserId;
-        public ObservableCollection<BookModel> Books { get; } = new ObservableCollection<BookModel>();
 
         public event EventHandler ViewLoaded;
         public event EventHandler AddBookClicked;
@@ -28,7 +26,7 @@ namespace MojaBiblioteka.MVP.MainView.View
         public event EventHandler SearchTextChanged;
         public event EventHandler BookDoubleClicked;
 
-        public BookModel SelectedBook => lvBooks.SelectedItem as BookModel;
+        public BookModel SelectedBook => (lvBooks.SelectedItem as BookCardControl)?.Book;
         public string SearchPhrase => txtSearch.Text;
         public int CurrentUserId => _currentUserId;
 
@@ -36,7 +34,6 @@ namespace MojaBiblioteka.MVP.MainView.View
         {
             _currentUserId = currentUserId;
             InitializeComponent();
-            lvBooks.ItemsSource = Books;
             txtWelcome.Text = $"Witaj, {currentUserLogin}";
 
             var dbDirectory = Path.Combine(
@@ -50,10 +47,17 @@ namespace MojaBiblioteka.MVP.MainView.View
 
         public void SetBooks(IEnumerable<BookModel> books)
         {
-            Books.Clear();
+            lvBooks.Items.Clear();
             foreach (var book in books)
             {
-                Books.Add(book);
+                var card = new BookCardControl
+                {
+                    Width = 170,
+                    Height = 260,
+                    Book = book
+                };
+                _ = new BookCardPresenter(card, book);
+                lvBooks.Items.Add(card);
             }
         }
 
@@ -61,7 +65,7 @@ namespace MojaBiblioteka.MVP.MainView.View
         {
             var form = new BookFormWindow(bookToEdit) { Owner = this };
             var accepted = form.ShowDialog() == true;
-            return accepted ? form.ViewModel.Book : null;
+            return accepted ? form.ResultBook : null;
         }
 
         public bool ConfirmAction(string message, string title) =>

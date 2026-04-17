@@ -9,7 +9,6 @@ namespace MojaBiblioteka.Utility
         private int _userId;
         private string _title;
         private string _author;
-        private string _isbn;
         private int _year;
         private string _genre;
         private string _description;
@@ -40,12 +39,6 @@ namespace MojaBiblioteka.Utility
         {
             get => _author;
             set { _author = value; OnPropertyChanged(); }
-        }
-
-        public string Isbn
-        {
-            get => _isbn;
-            set { _isbn = value; OnPropertyChanged(); }
         }
 
         public int Year
@@ -86,7 +79,6 @@ namespace MojaBiblioteka.Utility
             UserId = UserId,
             Title = Title,
             Author = Author,
-            Isbn = Isbn,
             Year = Year,
             Genre = Genre,
             Description = Description,
@@ -99,7 +91,6 @@ namespace MojaBiblioteka.Utility
             UserId = source.UserId;
             Title = source.Title;
             Author = source.Author;
-            Isbn = source.Isbn;
             Year = source.Year;
             Genre = source.Genre;
             Description = source.Description;

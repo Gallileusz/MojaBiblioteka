@@ -26,7 +26,6 @@ SELECT
     UserId,
     Title,
     Author,
-    Isbn,
     Year,
     Genre,
     Description,
@@ -54,7 +53,6 @@ ORDER BY
                             UserId = GetNullableInt(reader, "UserId"),
                             Title = reader["Title"]?.ToString(),
                             Author = reader["Author"]?.ToString(),
-                            Isbn = GetNullableString(reader, "Isbn"),
                             Year = GetNullableInt(reader, "Year"),
                             Genre = GetNullableString(reader, "Genre"),
                             Description = GetNullableString(reader, "Description"),
@@ -74,7 +72,6 @@ INSERT INTO Books (
     UserId, 
     Title, 
     Author, 
-    Isbn, 
     Year, 
     Genre, 
     Description, 
@@ -83,7 +80,6 @@ VALUES (
     @UserId, 
     @Title, 
     @Author, 
-    @Isbn, 
     @Year, 
     @Genre, 
     @Description, 
@@ -99,7 +95,6 @@ SELECT
                 command.Parameters.AddWithValue("@UserId", book.UserId);
                 command.Parameters.AddWithValue("@Title", book.Title ?? string.Empty);
                 command.Parameters.AddWithValue("@Author", book.Author ?? string.Empty);
-                command.Parameters.AddWithValue("@Isbn", (object)book.Isbn ?? DBNull.Value);
                 command.Parameters.AddWithValue("@Year", book.Year > 0 ? (object)book.Year : DBNull.Value);
                 command.Parameters.AddWithValue("@Genre", (object)book.Genre ?? DBNull.Value);
                 command.Parameters.AddWithValue("@Description", (object)book.Description ?? DBNull.Value);
@@ -121,7 +116,6 @@ UPDATE
 SET
     Title = @Title,
     Author = @Author,
-    Isbn = @Isbn,
     Year = @Year,
     Genre = @Genre,
     Description = @Description,
@@ -139,7 +133,6 @@ WHERE
                 command.Parameters.AddWithValue("@UserId", book.UserId);
                 command.Parameters.AddWithValue("@Title", book.Title ?? string.Empty);
                 command.Parameters.AddWithValue("@Author", book.Author ?? string.Empty);
-                command.Parameters.AddWithValue("@Isbn", (object)book.Isbn ?? DBNull.Value);
                 command.Parameters.AddWithValue("@Year", book.Year > 0 ? (object)book.Year : DBNull.Value);
                 command.Parameters.AddWithValue("@Genre", (object)book.Genre ?? DBNull.Value);
                 command.Parameters.AddWithValue("@Description", (object)book.Description ?? DBNull.Value);

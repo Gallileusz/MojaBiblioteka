@@ -133,8 +133,7 @@ namespace MojaBiblioteka.MVP.MainView.Presenter
             var filtered = _allBooks.Where(book =>
                 Contains(book.Title, query) ||
                 Contains(book.Author, query) ||
-                Contains(book.Genre, query) ||
-                Contains(book.Isbn, query))
+                Contains(book.Genre, query))
                 .ToList();
 
             _view.SetBooks(filtered);

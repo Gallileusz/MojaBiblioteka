@@ -10,11 +10,11 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -32,30 +32,33 @@
             Foreground="Crimson" FontSize="16" FontWeight="SemiBold" Margin="0, 5, 5 ,0" MouseDown="lblClose_Click"/>
 
         <Label Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.ColumnSpan="2" FontSize="30" Foreground="Purple" FontWeight="Bold" Margin="0,20,0,0">Moja biblioteka</Label>
-        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Text="Login:" 
-               HorizontalAlignment="Left" Margin="31,30,0,5" FontWeight="SemiBold"/>
-        <TextBox Grid.Row="3" Grid.ColumnSpan="2" Name ="txtLogin"  Margin="30,0,30,15" 
-             Padding="10" FontSize="14" BorderBrush="Gray"  BorderThickness="1" 
-             VerticalContentAlignment="Center"/>
+        <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Margin="30,14,30,0">
+            <TextBlock Text="Login:" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+            <TextBox Name="txtLogin" Margin="0,6,0,0"
+                     Height="36" Padding="10,0" FontSize="14" BorderBrush="Gray" BorderThickness="1"
+                     VerticalContentAlignment="Center"/>
+        </StackPanel>
 
-        <TextBlock Grid.Row="5" 
-               HorizontalAlignment="Left" Margin="30,21,0,79" FontWeight="SemiBold" Grid.RowSpan="3"><Run Language="pl-pl" Text="Powtórz h"/><Run Text="asło:"/></TextBlock>
-        <PasswordBox Grid.Row="4" Grid.ColumnSpan="2" Name ="txtPassword" Margin="30,22,30,48" 
-                 Padding="10" FontSize="14" BorderBrush="Gray" BorderThickness="1" Background="White" 
-                 VerticalContentAlignment="Center" Grid.RowSpan="2"/>
+        <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Margin="30,10,30,0">
+            <TextBlock Text="Hasło:" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+            <PasswordBox Name="txtPassword" Margin="0,6,0,0"
+                         Height="36" Padding="10,0" FontSize="14" BorderBrush="Gray" BorderThickness="1" Background="White"
+                         VerticalContentAlignment="Center"/>
+        </StackPanel>
 
-        <TextBlock Grid.Row="4" Text="Hasło:" 
-               HorizontalAlignment="Left" Margin="30,4,0,1" FontWeight="SemiBold" RenderTransformOrigin="0.501,-0.172"/>
-        <PasswordBox Grid.Row="5" Grid.ColumnSpan="2" Name ="txtConfirmationPassword" Margin="31,38,29,32" 
-                 Padding="10" FontSize="14" BorderBrush="Gray" BorderThickness="1" Background="White" 
-                 VerticalContentAlignment="Center" Grid.RowSpan="2"/>
+        <StackPanel Grid.Row="4" Grid.ColumnSpan="2" Margin="30,10,30,0">
+            <TextBlock Text="Powtórz hasło:" HorizontalAlignment="Left" FontWeight="SemiBold"/>
+            <PasswordBox Name="txtConfirmationPassword" Margin="0,6,0,0"
+                         Height="36" Padding="10,0" FontSize="14" BorderBrush="Gray" BorderThickness="1" Background="White"
+                         VerticalContentAlignment="Center"/>
+        </StackPanel>
 
-        <Button Grid.Row="6" Grid.ColumnSpan="2" Content="Zarejestruj się" 
-            HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Height="40" Background="Purple" Foreground="White" BorderThickness="0" 
-            FontSize="16" FontWeight="SemiBold" Click="btnRegister_Click" Margin="74,39,0,0" Grid.RowSpan="2"/>
+        <Button Grid.Row="5" Grid.ColumnSpan="2" Content="Zarejestruj się"
+                HorizontalAlignment="Center" Margin="0,18,0,0" Width="170" Height="40" Background="Purple" Foreground="White" BorderThickness="0"
+                FontSize="16" FontWeight="SemiBold" Click="btnRegister_Click"/>
 
-        <Label Grid.Row="7" Grid.ColumnSpan="2" Content="Wróć do logowania" 
-            HorizontalAlignment="Left" VerticalAlignment="Top"  
-            Foreground="Purple" FontSize="16" FontWeight="SemiBold" MouseDown="lblReturnToLoginForm_Click" Margin="74,36,0,0" Grid.RowSpan="2"/>
+        <Label Grid.Row="6" Grid.ColumnSpan="2" Content="Wróć do logowania"
+               HorizontalAlignment="Center" Margin="0,12,0,0"
+               Foreground="Purple" FontSize="16" FontWeight="SemiBold" MouseDown="lblReturnToLoginForm_Click"/>
     </Grid>
 </Window>

@@ -100,7 +100,6 @@
     <Compile Include="Data\Repositories\BookRepository.cs" />
     <Compile Include="Data\Repositories\UserRepository.cs" />
     <Compile Include="Data\DataBase\DataBaseInitializer.cs" />
-    <Compile Include="MVP\LoginView\Model\LoginModel.cs" />
     <Compile Include="MVP\LoginView\Presenter\LoginPresenter.cs" />
     <Compile Include="MVP\LoginView\View\ILoginView.cs" />
     <Compile Include="MVP\LoginView\View\LoginView.xaml.cs">
@@ -135,7 +134,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Utility\Converters\ByteArrayToImageSourceConverter.cs" />
     <Compile Include="Utility\Security\PasswordHasher.cs" />
     <Compile Include="Utility\UserModel.cs" />
     <Compile Include="Utility\UserSession.cs" />
@@ -150,10 +148,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MVP\MainView\Model\" />
-    <Folder Include="MVP\RegistrationView\Model\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />

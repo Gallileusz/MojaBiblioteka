@@ -1,59 +1,95 @@
 ﻿using Microsoft.Win32;
+using MojaBiblioteka.MVP.BookForm.Presenter;
 using MojaBiblioteka.Utility;
-using System.IO;
 using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace MojaBiblioteka.MVP.BookForm.View
 {
-    /// <summary>
-    /// Logika interakcji dla klasy BookForm.xaml
-    /// </summary>
-    public partial class BookForm : Window
+    public partial class BookForm : Window, IBookFormView
     {
-        // ViewModel okna – prosty wrapper
-        public BookFormViewModel ViewModel { get; }
+        private readonly BookFormPresenter _presenter;
+        private byte[] _coverImageData;
+
+        public event System.EventHandler SaveClicked;
+        public event System.EventHandler CancelClicked;
+        public event System.EventHandler BrowseCoverClicked;
 
         public BookForm(BookModel bookToEdit = null)
         {
             InitializeComponent();
-
-            ViewModel = new BookFormViewModel
-            {
-                // Tryb edycji: klonujemy model żeby nie mutować oryginału przed Save
-                // Tryb dodawania: pusty model
-                Book = bookToEdit?.Clone() ?? new BookModel(),
-                WindowTitle = bookToEdit == null ? "Dodaj książkę" : "Edytuj książkę"
-            };
-
-            DataContext = ViewModel;
+            _presenter = new BookFormPresenter(this, bookToEdit);
         }
 
-        private void Save_Click(object sender, RoutedEventArgs e)
+        public string WindowTitleText
         {
-            if (string.IsNullOrWhiteSpace(ViewModel.Book.Title) ||
-                string.IsNullOrWhiteSpace(ViewModel.Book.Author))
-            {
-                MessageBox.Show("Tytuł i autor są wymagane.", "Brakujące dane",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            if (!TryLoadCoverImageFromPath())
-            {
-                return;
-            }
-
-            DialogResult = true;
-            Close();
+            set => Title = value;
         }
 
-        private void Cancel_Click(object sender, RoutedEventArgs e)
+        public string HeaderTitleText
         {
-            DialogResult = false;
-            Close();
+            set => HeaderTitleTextBlock.Text = value;
         }
 
-        private void BrowseCover_Click(object sender, RoutedEventArgs e)
+        public string TitleText
+        {
+            get => TitleTextBox.Text;
+            set => TitleTextBox.Text = value ?? string.Empty;
+        }
+
+        public string AuthorText
+        {
+            get => AuthorTextBox.Text;
+            set => AuthorTextBox.Text = value ?? string.Empty;
+        }
+
+        public string YearText
+        {
+            get => YearTextBox.Text;
+            set => YearTextBox.Text = value ?? string.Empty;
+        }
+
+        public string GenreText
+        {
+            get => GenreComboBox.SelectedItem as string;
+            set => GenreComboBox.SelectedItem = string.IsNullOrWhiteSpace(value) ? null : value;
+        }
+
+        public string DescriptionText
+        {
+            get => DescriptionTextBox.Text;
+            set => DescriptionTextBox.Text = value ?? string.Empty;
+        }
+
+        public string CoverImagePath
+        {
+            get => CoverPathTextBox.Text;
+            set => CoverPathTextBox.Text = value ?? string.Empty;
+        }
+
+        public byte[] CoverImageData
+        {
+            get => _coverImageData;
+            set
+            {
+                _coverImageData = value;
+                UpdateCoverPreview();
+            }
+        }
+
+        public BookModel ResultBook { get; set; }
+
+        public void SetGenres(System.Collections.Generic.IEnumerable<string> genres)
+        {
+            GenreComboBox.Items.Clear();
+            foreach (var genre in genres)
+            {
+                GenreComboBox.Items.Add(genre);
+            }
+        }
+
+        public string PickCoverPath()
         {
             var dialog = new OpenFileDialog
             {
@@ -61,60 +97,66 @@ namespace MojaBiblioteka.MVP.BookForm.View
                 Filter = "Obrazy|*.jpg;*.jpeg;*.png;*.bmp;*.gif|Wszystkie pliki|*.*"
             };
 
-            if (dialog.ShowDialog() == true)
-            {
-                ViewModel.Book.CoverImagePath = dialog.FileName;
-                ViewModel.Book.CoverImageData = File.ReadAllBytes(dialog.FileName);
-            }
+            return dialog.ShowDialog() == true ? dialog.FileName : null;
         }
 
-        private bool TryLoadCoverImageFromPath()
+        public void ShowError(string message, string title)
         {
-            var path = ViewModel.Book.CoverImagePath;
-            if (string.IsNullOrWhiteSpace(path))
-            {
-                return true;
-            }
-
-            try
-            {
-                if (!File.Exists(path))
-                {
-                    MessageBox.Show("Wybrana ścieżka okładki nie istnieje.", "Błąd pliku",
-                        MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return false;
-                }
-
-                ViewModel.Book.CoverImageData = File.ReadAllBytes(path);
-                return true;
-            }
-            catch
-            {
-                MessageBox.Show("Nie udało się odczytać pliku okładki.", "Błąd pliku",
-                    MessageBoxButton.OK, MessageBoxImage.Warning);
-                return false;
-            }
+            MessageBox.Show(message, title, MessageBoxButton.OK, MessageBoxImage.Warning);
         }
-    }
 
-    public class BookFormViewModel : System.ComponentModel.INotifyPropertyChanged
-    {
-        private string _windowTitle;
-        public string WindowTitle
+        public void CloseWithSuccess()
         {
-            get => _windowTitle;
-            set { _windowTitle = value; OnPropertyChanged(nameof(WindowTitle)); }
+            DialogResult = true;
+            Close();
         }
 
-        private BookModel _book;
-        public BookModel Book
+        public void CloseWithCancel()
         {
-            get => _book;
-            set { _book = value; OnPropertyChanged(nameof(Book)); }
+            DialogResult = false;
+            Close();
         }
 
-        public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name)
-            => PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
+        private void UpdateCoverPreview()
+        {
+            var imageSource = ToImageSource(_coverImageData);
+            CoverPreviewImage.Source = imageSource;
+            CoverPreviewImage.Visibility = imageSource == null ? Visibility.Collapsed : Visibility.Visible;
+            CoverPlaceholderBorder.Visibility = imageSource == null ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveClicked?.Invoke(sender, e);
+        }
+
+        private void Cancel_Click(object sender, RoutedEventArgs e)
+        {
+            CancelClicked?.Invoke(sender, e);
+        }
+
+        private void BrowseCover_Click(object sender, RoutedEventArgs e)
+        {
+            BrowseCoverClicked?.Invoke(sender, e);
+        }
+
+        private static ImageSource ToImageSource(byte[] bytes)
+        {
+            if (bytes == null || bytes.Length == 0)
+            {
+                return null;
+            }
+
+            using (var stream = new System.IO.MemoryStream(bytes))
+            {
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = stream;
+                image.EndInit();
+                image.Freeze();
+                return image;
+            }
+        }
     }
 }

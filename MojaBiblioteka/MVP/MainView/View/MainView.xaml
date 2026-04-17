@@ -1,7 +1,6 @@
 ﻿<Window x:Class="MojaBiblioteka.MVP.MainView.View.MainView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:bookCardView="clr-namespace:MojaBiblioteka.MVP.BookCard.View"
         Title="Moje książki" Height="750" Width="1200" WindowStartupLocation="CenterScreen" MinWidth="1200" MinHeight="750"
         Loaded="MainView_OnLoaded">
 
@@ -59,11 +58,6 @@
                     <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <bookCardView:BookCard Width="170" Height="260"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
         </ListBox>
     </Grid>
 </Window>

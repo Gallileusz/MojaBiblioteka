@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MojaBiblioteka.MVP.BookForm.View"
         mc:Ignorable="d"
-        Title="{Binding WindowTitle}"
+        Title="Książka"
         Width="460" Height="560"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
@@ -119,7 +119,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="0,0,0,20">
-            <TextBlock Text="{Binding WindowTitle}"
+            <TextBlock x:Name="HeaderTitleTextBlock"
+                       Text="Książka"
                        FontSize="20"
                        FontWeight="Bold"
                        Foreground="#1A1A2E"/>
@@ -129,117 +130,117 @@
                        Margin="0,2,0,0"/>
         </StackPanel>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="16"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="0,0,0,14">
-                    <TextBlock Text="Tytuł *" Style="{StaticResource FieldLabel}"/>
-                    <TextBox Text="{Binding Book.Title, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{StaticResource FormTextBox}"/>
-                </StackPanel>
+            <Border Grid.Column="0"
+                    Background="#FFFFFF"
+                    BorderBrush="#D1D5DB"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    ClipToBounds="True">
+                <Grid>
+                    <Image x:Name="CoverPreviewImage"
+                           Stretch="UniformToFill">
+                    </Image>
 
-                <StackPanel Margin="0,0,0,14">
-                    <TextBlock Text="Autor *" Style="{StaticResource FieldLabel}"/>
-                    <TextBox Text="{Binding Book.Author, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{StaticResource FormTextBox}"/>
-                </StackPanel>
-
-                <Grid Margin="0,0,0,14">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="12"/>
-                        <ColumnDefinition Width="100"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Grid.Column="0">
-                        <TextBlock Text="ISBN" Style="{StaticResource FieldLabel}"/>
-                        <TextBox Text="{Binding Book.Isbn, UpdateSourceTrigger=PropertyChanged}"
-                                 Style="{StaticResource FormTextBox}"/>
-                    </StackPanel>
-
-                    <StackPanel Grid.Column="2">
-                        <TextBlock Text="Rok wydania" Style="{StaticResource FieldLabel}"/>
-                        <TextBox Text="{Binding Book.Year, UpdateSourceTrigger=PropertyChanged}"
-                                 Style="{StaticResource FormTextBox}"/>
-                    </StackPanel>
+                    <Border x:Name="CoverPlaceholderBorder" Background="#E8EAF6">
+                        <TextBlock Text="Brak okladki"
+                                   FontSize="14"
+                                   Foreground="#6B7280"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+                    </Border>
                 </Grid>
+            </Border>
 
-                <StackPanel Margin="0,0,0,14">
-                    <TextBlock Text="Gatunek" Style="{StaticResource FieldLabel}"/>
-                    <ComboBox x:Name="GenreComboBox"
-                              Height="34"
-                              FontSize="13"
-                              Padding="10,0"
-                              VerticalContentAlignment="Center"
-                              SelectedItem="{Binding Book.Genre}"
-                              Background="#FFFFFF"
-                              BorderBrush="#D1D5DB">
-                        <ComboBoxItem>Kryminał</ComboBoxItem>
-                        <ComboBoxItem>Fantastyka</ComboBoxItem>
-                        <ComboBoxItem>Sci-Fi</ComboBoxItem>
-                        <ComboBoxItem>Horror</ComboBoxItem>
-                        <ComboBoxItem>Romans</ComboBoxItem>
-                        <ComboBoxItem>Historia</ComboBoxItem>
-                        <ComboBoxItem>Biografia</ComboBoxItem>
-                        <ComboBoxItem>Poradnik</ComboBoxItem>
-                        <ComboBoxItem>Przygodowe</ComboBoxItem>
-                        <ComboBoxItem>Inne</ComboBoxItem>
-                    </ComboBox>
+            <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <StackPanel Margin="0,0,0,14">
+                        <TextBlock Text="Tytuł *" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="TitleTextBox"
+                                 Style="{StaticResource FormTextBox}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,14">
+                        <TextBlock Text="Autor *" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="AuthorTextBox"
+                                 Style="{StaticResource FormTextBox}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,14">
+                        <TextBlock Text="Rok wydania" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="YearTextBox"
+                                 Style="{StaticResource FormTextBox}"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,14">
+                        <TextBlock Text="Gatunek" Style="{StaticResource FieldLabel}"/>
+                        <ComboBox x:Name="GenreComboBox"
+                                  Height="34"
+                                  FontSize="13"
+                                  Padding="10,0"
+                                  VerticalContentAlignment="Center"
+                                  Background="#FFFFFF"
+                                  BorderBrush="#D1D5DB"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,14">
+                        <TextBlock Text="Opis" Style="{StaticResource FieldLabel}"/>
+                        <TextBox x:Name="DescriptionTextBox"
+                                 Height="80"
+                                 Padding="10,8"
+                                 VerticalContentAlignment="Top"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 FontSize="13"
+                                 Foreground="#1A1A2E"
+                                 Background="#FFFFFF"
+                                 BorderBrush="#D1D5DB"
+                                 BorderThickness="1">
+                            <TextBox.Template>
+                                <ControlTemplate TargetType="TextBox">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="6">
+                                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsFocused" Value="True">
+                                            <Setter Property="BorderBrush" Value="#4F46E5"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </TextBox.Template>
+                        </TextBox>
+                    </StackPanel>
+
+                    <StackPanel Margin="0,0,0,4">
+                        <TextBlock Text="Okładka (ścieżka do pliku)" Style="{StaticResource FieldLabel}"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="8"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0"
+                                     x:Name="CoverPathTextBox"
+                                     Style="{StaticResource FormTextBox}"
+                                     IsReadOnly="True"/>
+                            <Button Grid.Column="2"
+                                    Content="Przeglądaj…"
+                                    Style="{StaticResource SecondaryButton}"
+                                    Click="BrowseCover_Click"/>
+                        </Grid>
+                    </StackPanel>
                 </StackPanel>
-
-                <StackPanel Margin="0,0,0,14">
-                    <TextBlock Text="Opis" Style="{StaticResource FieldLabel}"/>
-                    <TextBox Text="{Binding Book.Description, UpdateSourceTrigger=PropertyChanged}"
-                             Height="80"
-                             Padding="10,8"
-                             VerticalContentAlignment="Top"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True"
-                             FontSize="13"
-                             Foreground="#1A1A2E"
-                             Background="#FFFFFF"
-                             BorderBrush="#D1D5DB"
-                             BorderThickness="1">
-                        <TextBox.Template>
-                            <ControlTemplate TargetType="TextBox">
-                                <Border Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="6">
-                                    <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsFocused" Value="True">
-                                        <Setter Property="BorderBrush" Value="#4F46E5"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </TextBox.Template>
-                    </TextBox>
-                </StackPanel>
-
-                <StackPanel Margin="0,0,0,4">
-                    <TextBlock Text="Okładka (ścieżka do pliku)" Style="{StaticResource FieldLabel}"/>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="8"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox Grid.Column="0"
-                                 x:Name="CoverPathTextBox"
-                                 Text="{Binding Book.CoverImagePath, UpdateSourceTrigger=PropertyChanged}"
-                                 Style="{StaticResource FormTextBox}"
-                                 IsReadOnly="True"/>
-                        <Button Grid.Column="2"
-                                Content="Przeglądaj…"
-                                Style="{StaticResource SecondaryButton}"
-                                Click="BrowseCover_Click"/>
-                    </Grid>
-                </StackPanel>
-
-            </StackPanel>
-        </ScrollViewer>
+            </ScrollViewer>
+        </Grid>
 
         <Grid Grid.Row="2" Margin="0,20,0,0">
             <Grid.ColumnDefinitions>

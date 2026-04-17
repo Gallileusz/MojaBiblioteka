@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS Books (
     UserId INTEGER NOT NULL,
     Title TEXT NOT NULL,
     Author TEXT NOT NULL,
-    Isbn TEXT NULL,
     Year INTEGER NULL,
     Genre TEXT NULL,
     Description TEXT NULL,

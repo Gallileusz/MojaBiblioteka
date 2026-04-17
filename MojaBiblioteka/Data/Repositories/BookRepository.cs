@@ -12,8 +12,13 @@ namespace MojaBiblioteka.Data.Repositories
     {
         private readonly string _connectionString;
 
-        public BookRepository(string databasePath)
+        public BookRepository()
         {
+            var dbDirectory = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "MojaBiblioteka");
+            var databasePath = Path.Combine(dbDirectory, "moja-biblioteka.sqlite");
+
             DataBaseInitializer.Initialize(databasePath);
             _connectionString = $"Data Source={databasePath};Version=3;";
         }

@@ -9,15 +9,26 @@ namespace MojaBiblioteka.Data.Repositories
     {
         private readonly string _connectionString;
 
-        public UserRepository(string databasePath)
+        public UserRepository()
         {
+            var dbDirectory = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "MojaBiblioteka");
+            var databasePath = Path.Combine(dbDirectory, "moja-biblioteka.sqlite");
+
             DataBaseInitializer.Initialize(databasePath);
             _connectionString = $"Data Source={databasePath};Version=3;";
         }
 
         public bool Exists(string login)
         {
-            const string sql = "SELECT COUNT(1) FROM Users WHERE Login = @Login;";
+            const string sql = @"
+SELECT 
+    COUNT(1) 
+FROM 
+    Users 
+WHERE 
+    Login = @Login;";
             using (var connection = CreateOpenConnection())
             using (var command = new SQLiteCommand(sql, connection))
             {
@@ -30,9 +41,15 @@ namespace MojaBiblioteka.Data.Repositories
         public UserModel GetByCredentials(string login, string passwordHash)
         {
             const string sql = @"
-SELECT Id, Login, PasswordHash
-FROM Users
-WHERE Login = @Login AND PasswordHash = @PasswordHash
+SELECT 
+    Id, 
+    Login, 
+    PasswordHash
+FROM
+    Users
+WHERE 
+    Login = @Login 
+    AND PasswordHash = @PasswordHash
 LIMIT 1;";
 
             using (var connection = CreateOpenConnection())
@@ -60,9 +77,14 @@ LIMIT 1;";
         public UserModel Add(string login, string passwordHash)
         {
             const string sql = @"
-INSERT INTO Users (Login, PasswordHash)
-VALUES (@Login, @PasswordHash);
-SELECT last_insert_rowid();";
+INSERT INTO Users (
+    Login, 
+    PasswordHash)
+VALUES (
+    @Login, 
+    @PasswordHash);
+SELECT 
+    last_insert_rowid();";
 
             using (var connection = CreateOpenConnection())
             using (var command = new SQLiteCommand(sql, connection))

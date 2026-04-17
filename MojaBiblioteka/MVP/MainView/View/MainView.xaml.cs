@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using MojaBiblioteka.Data.Repositories;
+﻿using MojaBiblioteka.Data.Repositories;
 using MojaBiblioteka.MVP.BookCard.Presenter;
 using MojaBiblioteka.MVP.MainView.Presenter;
 using MojaBiblioteka.Utility;
+using System;
+using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using BookCardControl = MojaBiblioteka.MVP.BookCard.View.BookCard;
 using BookFormWindow = MojaBiblioteka.MVP.BookForm.View.BookForm;
 
@@ -35,12 +34,7 @@ namespace MojaBiblioteka.MVP.MainView.View
             InitializeComponent();
             txtWelcome.Text = $"Witaj, {currentUserLogin}";
 
-            var dbDirectory = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "MojaBiblioteka");
-            var databasePath = Path.Combine(dbDirectory, "moja-biblioteka.sqlite");
-
-            var repository = new BookRepository(databasePath);
+            var repository = new BookRepository();
             _presenter = new MainPresenter(this, repository);
         }
 
@@ -55,7 +49,7 @@ namespace MojaBiblioteka.MVP.MainView.View
                     Height = 260,
                     Book = book
                 };
-                _ = new BookCardPresenter(card, book);
+                new BookCardPresenter(card, book);
                 lvBooks.Items.Add(card);
             }
         }
